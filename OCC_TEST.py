@@ -33,7 +33,7 @@ def get_boundingbox(shape, tol=1e-6, use_mesh=True):
 
 
 step_reader = STEPControl_Reader()
-status = step_reader.ReadFile("/home/fe-itsc-w144/pythonocc-core1/Block1.step")
+status = step_reader.ReadFile("")
 #if status == IFSelect_RetDone:
 step_reader.TransferRoots()
 shape = step_reader.Shape()
