@@ -1,37 +1,18 @@
+from OCC.Core.STEPControl import STEPControl_Reader
+from OCC.Display.SimpleGui import init_display
+import OCC.Core.TopExp as TopExp
+import OCC.Core.TopAbs as TopAbs
 from OCC.Core.Bnd import Bnd_Box
 from OCC.Core.BRepBndLib import brepbndlib_Add
 from OCC.Core.BRepPrimAPI import BRepPrimAPI_MakeBox, BRepPrimAPI_MakeCylinder
 from OCC.Core.BRepMesh import BRepMesh_IncrementalMesh
-from OCC.Core.STEPControl import STEPControl_Reader
+from OCC.Display.SimpleGui import init_display
 from OCC.Display.SimpleGui import *
 from OCC.Core.gp import gp_Pnt, gp_Dir
 from OCC.Core.Geom import Geom_Line
 from OCC.Extend.ShapeFactory import make_edge
 
-
 TOLERANCE = 0.0000001
-
-class assert_isdone(object):
-    """
-    raises an assertion error when IsDone() returns false, with the error
-    specified in error_statement
-    """
-
-    def __init__(self, to_check, error_statement):
-        self.to_check = to_check
-        self.error_statement = error_statement
-
-    def __enter__(
-        self,
-    ):
-        if self.to_check.IsDone():
-            pass
-        else:
-            raise AssertionError(self.error_statement)
-
-    def __exit__(self, assertion_type, value, traceback):
-        pass
-
 
 def intersect_shape_by_line(
     topods_shape, line, low_parameter=0.0, hi_parameter=float("+inf")
@@ -96,17 +77,6 @@ def intersect_shape_by_line(topods_shape, line, low_parameter=0.0, hi_parameter=
         return ("no intersection")
 
 def get_boundingbox(shape, tol=1e-6, use_mesh=True):
-    """return the bounding box of the TopoDS_Shape `shape`
-    Parameters
-    ----------
-    shape : TopoDS_Shape or a subclass such as TopoDS_Face
-        the shape to compute the bounding box from
-    tol: float
-        tolerance of the computed boundingbox
-    use_mesh : bool
-        a flag that tells whether or not the shape has first to be meshed before the bbox
-        computation. This produces more accurate results
-    """
     bbox = Bnd_Box()
     bbox.SetGap(tol)
     if use_mesh:
@@ -123,23 +93,29 @@ def get_boundingbox(shape, tol=1e-6, use_mesh=True):
 
 
 step_reader = STEPControl_Reader()
-status = step_reader.ReadFile("Block1.step")
+status = step_reader.ReadFile("final_assembly.stp")
 #if status == IFSelect_RetDone:
 step_reader.TransferRoots()
 shape = step_reader.Shape()
 
+
+
+sub_assemblies = []
+exp = TopExp.TopExp_Explorer(shape, TopAbs.TopAbs_SOLID)
+while exp.More():
+    current_shape = exp.Current()
+    if current_shape.ShapeType() == TopAbs.TopAbs_SOLID:
+        sub_assemblies.append(current_shape)
+    exp.Next()
+
 print("Box bounding box computation")
-bb1 = get_boundingbox(shape)
+bb1 = get_boundingbox(sub_assemblies[1])
 print(bb1)
 
-for i in range (-15, 15 , 1):
-    p1 = gp_Pnt(i,0,-1)
-    line_dir = gp_Dir(i,0,12)
+for i in range (30, 85 , 1):
+    p1 = gp_Pnt(-10,i,22)
+    line_dir = gp_Dir(10,i,22)
     my_line = Geom_Line(p1, line_dir).Lin()
     print(i)
-    print(intersect_shape_by_line(shape, my_line))
-
-display, start_display, add_menu, add_function_to_menu = init_display()
-
-
-
+    inter = intersect_shape_by_line(sub_assemblies[3], my_line)
+    print(inter)
