@@ -154,7 +154,7 @@ def negative_x(bb1, bb, sub_assemblies):
 
 def positive_z(bb1, bb, sub_assemblies):
     pos = True
-    for j in range(math.floor(bb1[5]), math.ceil(bb[4]), 1):
+    for j in range(math.floor(bb1[5])+5, math.ceil(bb[4]), 1):
         p1 = gp_Pnt(0, math.floor(bb1[2]), j)
         line_dir = gp_Dir(0, -math.floor(bb1[2]), j)
         my_line = Geom_Line(p1, line_dir).Lin()
@@ -215,24 +215,24 @@ if __name__ == '__main__':
         print(bcolors.OKBLUE + "This is the arroach direction of block " +
               str(i+1) + bcolors.ENDC)
         bb1 = get_boundingbox(sub_assemblies[i])
-        # pos_posy = Process(target=positive_y, args=(bb1, bb, sub_assemblies))
-        # pos_negy = Process(target=negative_y, args=(bb1, bb, sub_assemblies))
-        # pos_posx = Process(target=positive_x, args=(bb1, bb, sub_assemblies))
-        # pos_negx = Process(target=negative_x, args=(bb1, bb, sub_assemblies))
+        pos_posy = Process(target=positive_y, args=(bb1, bb, sub_assemblies))
+        pos_negy = Process(target=negative_y, args=(bb1, bb, sub_assemblies))
+        pos_posx = Process(target=positive_x, args=(bb1, bb, sub_assemblies))
+        pos_negx = Process(target=negative_x, args=(bb1, bb, sub_assemblies))
         pos_posz = Process(target=positive_z, args=(bb1, bb, sub_assemblies))
         pos_negz = Process(target=negative_z, args=(bb1, bb, sub_assemblies))
 
-        # pos_posy.start()
-        # pos_negy.start()
-        # pos_posx.start()
-        # pos_negx.start()
+        pos_posy.start()
+        pos_negy.start()
+        pos_posx.start()
+        pos_negx.start()
         pos_posz.start()
         pos_negz.start()
 
-        # pos_posy.join()
-        # pos_negy.join()
-        # pos_posx.join()
-        # pos_negx.join()
+        pos_posy.join()
+        pos_negy.join()
+        pos_posx.join()
+        pos_negx.join()
         pos_posz.join()
         pos_negz.join()
 
