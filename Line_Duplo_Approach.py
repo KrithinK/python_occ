@@ -112,6 +112,7 @@ for i in [1, 2, 0]:
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive y " + bcolors.FAIL + "direction" + bcolors.ENDC)
+
     pos = True
     for j in range(math.floor(bb1[2]), math.ceil(bb[3]), -1):
         p1 = gp_Pnt(math.floor(bb1[0]), j, math.ceil(bb1[5])+5)
@@ -143,6 +144,7 @@ for i in [1, 2, 0]:
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive x " + bcolors.FAIL + "direction" + bcolors.ENDC)
+
     pos = True
     for j in range(math.floor(bb1[0]), math.ceil(bb[1]), -1):
         p1 = gp_Pnt(j, math.floor(bb1[2]), math.ceil(bb1[5])+5)
