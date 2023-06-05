@@ -197,7 +197,7 @@ def end_time():
 
 if __name__ == '__main__':
     step_reader = STEPControl_Reader()
-    status = step_reader.ReadFile("final_assembly.stp")
+    status = step_reader.ReadFile("pick-up_classic_king-size.stp")
     step_reader.TransferRoots()
     shape = step_reader.Shape()
 
