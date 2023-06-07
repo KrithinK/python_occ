@@ -15,6 +15,7 @@ from OCC.Core.BRepAlgoAPI import BRepAlgoAPI_Fuse
 import math
 import time
 from multiprocessing import Process
+import os
 
 start = time.time()
 TOLERANCE = 0.0000001
@@ -197,7 +198,8 @@ def end_time():
 
 if __name__ == '__main__':
     step_reader = STEPControl_Reader()
-    status = step_reader.ReadFile("pick-up_classic_king-size.stp")
+    status = step_reader.ReadFile(
+        os.getcwd()[:-10]+"/Assets/final_assembly.stp")
     step_reader.TransferRoots()
     shape = step_reader.Shape()
 
