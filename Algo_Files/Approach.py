@@ -200,6 +200,7 @@ if __name__ == '__main__':
     step_reader = STEPControl_Reader()
     status = step_reader.ReadFile(
         os.getcwd()[:-10]+"/Assets/final_assembly.stp")
+    print(os.getcwd())
     step_reader.TransferRoots()
     shape = step_reader.Shape()
 
