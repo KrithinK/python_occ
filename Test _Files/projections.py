@@ -11,7 +11,8 @@ from OCC.Core.BRepBuilderAPI import (
 )
 
 step_reader = STEPControl_Reader()
-status = step_reader.ReadFile(os.getcwd()[:-12]+"/Assets/final_assembly.stp")
+status = step_reader.ReadFile(
+    os.getcwd()[:-12]+"/Assets/pick-up_classic_king-size.stp")
 print(os.getcwd()[:-12]+"/Assets/final_assembly.stp")
 # if status == IFSelect_RetDone:
 step_reader.TransferRoots()
@@ -26,14 +27,14 @@ while exp.More():
     if current_shape.ShapeType() == TopAbs.TopAbs_SOLID:
         sub_assemblies.append(current_shape)
     exp.Next()
-
+print(len(sub_assemblies))
 
 # create two boxes that intersect
 box1 = sub_assemblies[3]
 box2 = sub_assemblies[0]
 
-for i in range(1):
-    move.SetTranslation(gp_Vec(i, 0, 0))
+for i in range(10):
+    move.SetTranslation(gp_Vec(0, i, 0))
     box2 = BRepBuilderAPI_Transform(
         box2, move, True).Shape()
 
@@ -45,7 +46,7 @@ for i in range(1):
     mesher2.Perform()
 
     # Perform shape proximity check
-    tolerance = 0.0001
+    tolerance = 0
     isect_test = BRepExtrema_ShapeProximity(box1, box2, tolerance)
     isect_test.Perform()
 
@@ -67,10 +68,10 @@ for i in range(1):
     print(i)
     print(len(shape_1_faces))
 
-    display, start_display, add_menu, add_function_to_menu = init_display()
-    display.DisplayShape(box1, transparency=0.5)
-    display.DisplayShape(box2, transparency=0.5)
-    display.DisplayShape(shape_1_faces + shape_2_faces, color="RED")
+    # display, start_display, add_menu, add_function_to_menu = init_display()
+    # display.DisplayShape(box1, transparency=0.5)
+    # display.DisplayShape(box2, transparency=0.5)
+    # display.DisplayShape(shape_1_faces + shape_2_faces, color="RED")
 
-    display.FitAll()
-    start_display()
+    # display.FitAll()
+    # start_display()
