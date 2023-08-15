@@ -441,6 +441,39 @@ def end_time():
     print(end - start)
 
 
+def allDirections():
+    print(bcolors.OKBLUE + "This is the arroach direction of block " +
+          str(i) + bcolors.ENDC)
+    bb1 = get_boundingbox(sub_assemblies[i])
+    bb = get_boundingbox(temp)
+    pos_posy = Process(target=positive_y, args=(
+        bb1, bb, temp, sub_assemblies[i]))
+    pos_negy = Process(target=negative_y, args=(
+        bb1, bb, temp, sub_assemblies[i]))
+    pos_posx = Process(target=positive_x, args=(
+        bb1, bb, temp, sub_assemblies[i]))
+    pos_negx = Process(target=negative_x, args=(
+        bb1, bb, temp, sub_assemblies[i]))
+    pos_posz = Process(target=positive_z, args=(
+        bb1, bb, temp, sub_assemblies[i]))
+    pos_negz = Process(target=negative_z, args=(
+        bb1, bb, temp, sub_assemblies[i]))
+
+    pos_posy.start()
+    pos_negy.start()
+    pos_posx.start()
+    pos_negx.start()
+    pos_posz.start()
+    pos_negz.start()
+
+    pos_posy.join()
+    pos_negy.join()
+    pos_posx.join()
+    pos_negx.join()
+    pos_posz.join()
+    pos_negz.join()
+
+
 if __name__ == '__main__':
     step_reader = STEPControl_Reader()
     status = step_reader.ReadFile(
@@ -460,6 +493,8 @@ if __name__ == '__main__':
         exp.Next()
 
     temp = sub_assemblies[0]
+    sub_assemblies_cummul = sub_assemblies[0]
+    sub_assemblies_reorder = sub_assemblies[0]
     bb = get_boundingbox(temp)
 
     for i in [5, 6, 1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]:

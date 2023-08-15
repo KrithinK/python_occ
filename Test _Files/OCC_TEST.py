@@ -50,6 +50,6 @@ print(get_boundingbox(sub_assemblies[0]))
 print(get_boundingbox(temp))
 
 # for sub_assembly in sub_assemblies:
-display, start_display, add_menu, add_function_to_menu = init_display()
-display.DisplayShape(temp, update=True)
-start_display()
+# display, start_display, add_menu, add_function_to_menu = init_display()
+# display.DisplayShape(temp, update=True)
+# start_display()
