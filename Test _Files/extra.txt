@@ -36,3 +36,14 @@ print(bcolors.OKBLUE + "This is the arroach direction of block " +
 
         temp = BRepAlgoAPI_Fuse(
             temp, sub_assemblies[i]).Shape()
+
+for i in [5, 6, 1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]:
+        sub_assemblies_cummul.append(BRepAlgoAPI_Fuse(
+            sub_assemblies_cummul[len(sub_assemblies_cummul)-1], sub_assemblies[i]).Shape())
+        sub_assemblies_reorder.append(sub_assemblies[i])
+
+    for i in range(len(sub_assemblies_cummul)):
+        p = multiprocessing.Process(target=allDirections, args=())
+        p.start()
+
+    for
