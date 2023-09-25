@@ -140,6 +140,10 @@ def positive_y(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "positive y " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
+        print("The final position of the block is: (" +
+              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
+        print("The starting position of the block is: (" +
+              bb[0] + "," + bb[2]+5 + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive y " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -198,6 +202,10 @@ def negative_y(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "negative y " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
+        print("The final position of the block is: (" +
+              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
+        print("The starting position of the block is: (" +
+              bb[0] + "," + bb[2]-5 + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "negative y " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -256,6 +264,10 @@ def positive_x(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "positive x " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
+        print("The final position of the block is: (" +
+              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
+        print("The starting position of the block is: (" +
+              bb[0]+5 + "," + bb[2] + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive x " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -314,6 +326,10 @@ def negative_x(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "negative x " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
+        print("The final position of the block is: (" +
+              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
+        print("The starting position of the block is: (" +
+              bb[0]-5 + "," + bb[2] + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "negative x " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -372,6 +388,10 @@ def positive_z(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "positive z " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
+        print("The final position of the block is: (" +
+              str(bb1[0]) + "," + str(bb1[2]) + "," + str(bb1[4]) + ")")
+        print("The starting position of the block is: (" +
+              str(bb1[0]) + "," + str(bb1[2]) + "," + str(bb1[4]+5) + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive z " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -430,6 +450,10 @@ def negative_z(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "negative z " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
+        print("The final position of the block is: (" +
+              str(round(bb1[0], 3)) + "," + str(round(bb1[2], 3)) + "," + str(round(bb1[4], 3)) + ")")
+        print("The starting position of the block is: (" +
+              str(round(bb1[0], 3)) + "," + str(round(bb1[2], 3)) + "," + str(round(bb1[4]-5, 3)) + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "negative z " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -465,7 +489,7 @@ if __name__ == '__main__':
     bb = get_boundingbox(temp)
 
     for i in [5, 6, 1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]:
-        print(bcolors.OKBLUE + "This is the arroach direction of block " +
+        print(bcolors.OKBLUE + "This is the approach direction of block " +
               str(i) + bcolors.ENDC)
         bb1 = get_boundingbox(sub_assemblies[i])
         bb = get_boundingbox(temp)
