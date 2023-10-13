@@ -140,10 +140,6 @@ def positive_y(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "positive y " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
-        print("The final position of the block is: (" +
-              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
-        print("The starting position of the block is: (" +
-              bb[0] + "," + bb[2]+5 + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive y " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -202,10 +198,6 @@ def negative_y(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "negative y " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
-        print("The final position of the block is: (" +
-              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
-        print("The starting position of the block is: (" +
-              bb[0] + "," + bb[2]-5 + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "negative y " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -264,10 +256,6 @@ def positive_x(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "positive x " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
-        print("The final position of the block is: (" +
-              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
-        print("The starting position of the block is: (" +
-              bb[0]+5 + "," + bb[2] + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive x " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -326,10 +314,6 @@ def negative_x(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "negative x " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
-        print("The final position of the block is: (" +
-              bb1[0] + "," + bb1[2] + "," + bb1[4] + ")")
-        print("The starting position of the block is: (" +
-              bb[0]-5 + "," + bb[2] + "," + bb[4] + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "negative x " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -388,10 +372,6 @@ def positive_z(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "positive z " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
-        print("The final position of the block is: (" +
-              str(bb1[0]) + "," + str(bb1[2]) + "," + str(bb1[4]) + ")")
-        print("The starting position of the block is: (" +
-              str(bb1[0]) + "," + str(bb1[2]) + "," + str(bb1[4]+5) + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "positive z " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -450,10 +430,6 @@ def negative_z(bb1, bb, temp, sub_assembly):
     if (pos):
         print(bcolors.OKGREEN + "possible in " + bcolors.OKCYAN +
               "negative z " + bcolors.OKGREEN + "direction" + bcolors.ENDC)
-        print("The final position of the block is: (" +
-              str(round(bb1[0], 3)) + "," + str(round(bb1[2], 3)) + "," + str(round(bb1[4], 3)) + ")")
-        print("The starting position of the block is: (" +
-              str(round(bb1[0], 3)) + "," + str(round(bb1[2], 3)) + "," + str(round(bb1[4]-5, 3)) + ")")
     else:
         print(bcolors.FAIL + "not possible in " + bcolors.OKCYAN +
               "negative z " + bcolors.FAIL + "direction" + bcolors.ENDC)
@@ -463,6 +439,39 @@ def negative_z(bb1, bb, temp, sub_assembly):
 def end_time():
     end = time.time()
     print(end - start)
+
+
+def allDirections(final, sub, i):
+    print(bcolors.OKBLUE + "This is the arroach direction of block " +
+          str(i) + bcolors.ENDC)
+    bb1 = get_boundingbox(sub)
+    bb = get_boundingbox(final)
+    pos_posy = Process(target=positive_y, args=(
+        bb1, bb, final, sub))
+    pos_negy = Process(target=negative_y, args=(
+        bb1, bb, final, sub))
+    pos_posx = Process(target=positive_x, args=(
+        bb1, bb, final, sub))
+    pos_negx = Process(target=negative_x, args=(
+        bb1, bb, final, sub))
+    pos_posz = Process(target=positive_z, args=(
+        bb1, bb, final, sub))
+    pos_negz = Process(target=negative_z, args=(
+        bb1, bb, final, sub))
+
+    pos_posy.start()
+    pos_negy.start()
+    pos_posx.start()
+    pos_negx.start()
+    pos_posz.start()
+    pos_negz.start()
+
+    pos_posy.join()
+    pos_negy.join()
+    pos_posx.join()
+    pos_negx.join()
+    pos_posz.join()
+    pos_negz.join()
 
 
 if __name__ == '__main__':
@@ -484,43 +493,27 @@ if __name__ == '__main__':
         exp.Next()
 
     temp = sub_assemblies[0]
-    sub_assemblies_cummul = sub_assemblies[0]
-    sub_assemblies_reorder = sub_assemblies[0]
+    sub_assemblies_cummul = []
+    sub_assemblies_reorder = []
+    sub_assemblies_cummul.append(sub_assemblies[0])
+    sub_assemblies_reorder.append(sub_assemblies[0])
     bb = get_boundingbox(temp)
+    counter = 1
+    Processes = []
 
     for i in [5, 6, 1, 2, 3, 4, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]:
-        print(bcolors.OKBLUE + "This is the approach direction of block " +
-              str(i) + bcolors.ENDC)
-        bb1 = get_boundingbox(sub_assemblies[i])
-        bb = get_boundingbox(temp)
-        pos_posy = Process(target=positive_y, args=(
-            bb1, bb, temp, sub_assemblies[i]))
-        pos_negy = Process(target=negative_y, args=(
-            bb1, bb, temp, sub_assemblies[i]))
-        pos_posx = Process(target=positive_x, args=(
-            bb1, bb, temp, sub_assemblies[i]))
-        pos_negx = Process(target=negative_x, args=(
-            bb1, bb, temp, sub_assemblies[i]))
-        pos_posz = Process(target=positive_z, args=(
-            bb1, bb, temp, sub_assemblies[i]))
-        pos_negz = Process(target=negative_z, args=(
-            bb1, bb, temp, sub_assemblies[i]))
+        sub_assemblies_cummul.append(BRepAlgoAPI_Fuse(
+            sub_assemblies_cummul[len(sub_assemblies_cummul)-1], sub_assemblies[i]).Shape())
+        sub_assemblies_reorder.append(sub_assemblies[i])
 
-        pos_posy.start()
-        pos_negy.start()
-        pos_posx.start()
-        pos_negx.start()
-        pos_posz.start()
-        pos_negz.start()
+    for i in range(len(sub_assemblies_cummul)):
+        p = Process(target=allDirections, args=(
+            sub_assemblies_cummul[i-1], sub_assemblies_reorder[i], counter))
+        counter += 1
+        p.start()
+        Processes.append(p)
 
-        pos_posy.join()
-        pos_negy.join()
-        pos_posx.join()
-        pos_negx.join()
-        pos_posz.join()
-        pos_negz.join()
-
-        temp = BRepAlgoAPI_Fuse(
-            temp, sub_assemblies[i]).Shape()
+    for process in Processes:
+        process.join()
 
     end_time()
